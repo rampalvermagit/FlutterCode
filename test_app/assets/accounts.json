@@ -1,0 +1,52 @@
+[
+    {
+      "accountNumber": "00000234567771234",
+      "accountName": "Checking Account",
+      "accountType": "CHK",
+      "accountBalance": 45000.90
+    
+    },
+    {
+        "accountNumber": "0000023456789",
+        "accountName": "Checking Account",
+        "accountType": "CHK",
+        "accountBalance": 52423.99
+      
+      },
+      {
+        "accountNumber": "99990000000234",
+        "accountName": "Checking Account",
+        "accountType": "CHK",
+        "accountBalance": 250000.00
+      
+      },
+      {
+        "accountNumber": "234567777775555",
+        "accountName": "Saving Account",
+        "accountType": "SAV",
+        "accountBalance": 33000.80
+      
+      },
+      {
+        "accountNumber": "888888888881999",
+        "accountName": "Investment Account",
+        "accountType": "INV",
+        "accountBalance": 1250000.85
+      
+      },
+      {
+          "accountNumber": "23456781114560",
+          "accountName": "Money Market Account",
+          "accountType": "MMA",
+          "accountBalance": 210000.50
+        
+        },
+        {
+          "accountNumber": "9934123412341234",
+          "accountName": "DDA Account",
+          "accountType": "DDA",
+          "accountBalance": 440000.40
+        
+        }
+
+]
