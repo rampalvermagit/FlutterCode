@@ -1,9 +1,11 @@
 
+
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import './home.dart';
 
 
 class StreamResponse{
@@ -19,14 +21,23 @@ StreamResponse({
 
 
 }
-class StreamControllerTestPage extends StatefulWidget {
-   @override
-  _StreamControllerTestPageState createState() => _StreamControllerTestPageState();
+class StreamListnerPage extends StatefulWidget {
   
-  }
+  StreamListnerPage({Key key}) : super(key: key);
 
-class _StreamControllerTestPageState extends State<StreamControllerTestPage> {
-  StreamController<StreamResponse> _streamController;
+final StreamController<StreamResponse> streamCntrl = StreamController<StreamResponse> ();
+ //StreamController<StreamResponse> streamCntrl
+  
+  @override
+    _StreamListnerPageState createState() {
+   
+      return _StreamListnerPageState();
+    }
+}
+
+class _StreamListnerPageState extends State<StreamListnerPage> {
+  
+  //StreamController<StreamResponse> _streamController;
  StreamResponse _streamResponse = StreamResponse(
      code:'999999',
          desc: 'FIRST MESSAGE',
@@ -34,13 +45,10 @@ class _StreamControllerTestPageState extends State<StreamControllerTestPage> {
  );
   double _incCounter = 0.0;
 
-  @override
-    void initState() {
-       super.initState();
-        _incCounter = _incCounter+1;
-       print('Stream Controller ');
-       _streamController =  StreamController();
-       _streamController.stream.listen((data){
+void _registerListner(){
+      _incCounter = _incCounter+1;
+       print('Stream Controller in StreamListnerPage ');
+       widget.streamCntrl.stream.listen((data){
          print("Data received- DESC" + data.desc);
           print("Data received - Balance" + data.actBalance.toString());
 
@@ -51,27 +59,30 @@ class _StreamControllerTestPageState extends State<StreamControllerTestPage> {
          print("Some Error" + error);
 
        });
+}
+  @override
+    void initState() {
+       super.initState();
+      _registerListner();
 
     }
 
     @override
       void dispose() {
-       _streamController.close();
+       widget.streamCntrl.close();
         super.dispose();
       }
   
- void _streamTest_clicked(){
+ void _goback_to_home(){
    print('Post Notification');
 
    //Post notification
    setState(() {
-      _incCounter = _incCounter+2;
-        _streamResponse = StreamResponse(
-      code:'10001' +  _incCounter.toString(),
-         desc: 'Test Notification' +  _incCounter.toString(),
-         actBalance: 234.09 + _incCounter
-   );
-       _streamController.add(_streamResponse);
+      print('GO BACK');
+        Navigator.push(context,  new MaterialPageRoute<MyFirstApp>(
+          builder: (BuildContext context) => new MyFirstApp()
+
+        ));
       });
    
  }
@@ -95,8 +106,8 @@ class _StreamControllerTestPageState extends State<StreamControllerTestPage> {
            new Text(_streamResponse.desc),
             new Text(_streamResponse.actBalance.toString()),
   new RaisedButton(
-            onPressed: _streamTest_clicked,
-            child: Text('Send Notification'),
+            onPressed: _goback_to_home,
+            child: Text('BACK TO HOME'),
   ),
 
         ],
@@ -106,3 +117,5 @@ class _StreamControllerTestPageState extends State<StreamControllerTestPage> {
   }
 
 }
+
+

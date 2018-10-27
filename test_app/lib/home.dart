@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 
 import './transfer.dart';
-import './service_test.dart';
 import './accounts_summary.dart';
 import './take_photo.dart';
-import './stream_controller.dart';
-import './user_registration.dart';
-
+import './stream_sink_test.dart';
+import './rest_service.dart';
+import './BLoC/user_info_search.dart';
+import 'package:test_app/RXDart/rxdart_test.dart';
 
 
 class MyFirstApp extends StatelessWidget {
@@ -48,11 +48,12 @@ void _stream_sink_clicked(){
  }
  void _user_registration_clicked(){
    setState(() {
-        print('User Registraion CLICKED');
-      /*  Navigator.push(context,  new MaterialPageRoute<UserRegistrationPage>(
-          builder: (BuildContext context) => new UserRegistrationPage()
+        print('EMAIl VALIDATION CLICKED');
+      /* Navigator.push(context,  new MaterialPageRoute<InputFieldTestPageWithStreamSink>(
+          builder: (BuildContext context) => new InputFieldTestPageWithStreamSink()
 
-        ));*/
+        ));
+        */
 
       });
  }
@@ -90,14 +91,34 @@ void _stream_sink_clicked(){
  void _serviceTest_clicked(){
     setState(() {
         print('Camera VIEW CLICKED');
-       Navigator.push(context,  new MaterialPageRoute<ServiceTestPage>(
-        builder: (BuildContext context) => new ServiceTestPage(title: 'Service Test')
+       Navigator.push(context,  new MaterialPageRoute<RestServiceTestPage>(
+        builder: (BuildContext context) => new RestServiceTestPage(title: 'Service Test')
 
        ));
 
       });
  }
- 
+ void _block_test_clicked(){
+    setState(() {
+        print('BLOCK  CLICKED');
+       Navigator.push(context,  new MaterialPageRoute<UserInfoSearchPage>(
+        builder: (BuildContext context) => new UserInfoSearchPage()
+
+       ));
+
+      });
+ }
+ void _block_test_withdart_clicked() {
+   setState(() {
+        print('BLOCK  with RXDart CLICKED');
+       Navigator.push(context,  new MaterialPageRoute<RXDartTestPage>(
+        builder: (BuildContext context) => new RXDartTestPage()
+
+       ));
+
+      });
+ }
+
   @override
     Widget build(BuildContext context) {
       final ThemeData theme = Theme.of(context);
@@ -132,23 +153,29 @@ void _stream_sink_clicked(){
             child: Text('Service Test'),
           ),
             
-          new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _takePhoto_clicked,
-            child: Text('Take Photo'),
-          ), 
            new RaisedButton(
             splashColor:theme.primaryColor.withOpacity(0.12),
             
             onPressed: _stream_sink_clicked,
-            child: Text('Stream/Sink'),
+            child: Text('Stream/Sink With Timer'),
           ), 
            new RaisedButton(
             splashColor:theme.primaryColor.withOpacity(0.12),
             
+            onPressed: _block_test_clicked,
+            child: Text('Stream/Sink With BLOCK'),
+          ), 
+   new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _block_test_withdart_clicked,
+            child: Text('BLOCK using RXDart'),
+          ),
+           new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
             onPressed: _user_registration_clicked,
-            child: Text('User Registration'),
+            child: Text('MVVM Approach'),
           ), 
             ],
           ),
