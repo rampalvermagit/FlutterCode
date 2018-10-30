@@ -58,7 +58,7 @@ class _SearchPage extends StatelessWidget {
                   child: StreamBuilder<List<UserInfoData>>(
                     stream: userInfoBlock.outStream,
                     initialData: initialValue,
-                    builder:(context,AsyncSnapshot<List<UserInfoData>> snapshot){
+                    builder:(context, snapshot){
                       if (!snapshot.hasData)
                        return Center(
                          child:CircularProgressIndicator(),
