@@ -10,32 +10,123 @@ import './rest_service.dart';
 import './BLoC/user_info_search.dart';
 import 'package:test_app/RXDart/rxdart_test.dart';
 
+import 'package:test_app/common/session_manager_bloc.dart';
+import 'package:test_app/common/session_manager_provider.dart';
+import 'package:test_app/common/session_manager_data.dart';
+
+
 
 class MyFirstApp extends StatelessWidget {
- 
+ SessionManagerBloc sessionMgrBloc = SessionManagerBloc();
+
  @override
    Widget build(BuildContext context) {
-     
-     return new MaterialApp(
+     return SessionManagerProvider(
+        sessionManagerBloc:sessionMgrBloc,
+        child:MaterialApp(
        theme:ThemeData(
          primarySwatch:Colors.deepOrange,
          accentColor: Colors.deepPurple
        ),
        home: new HomePage(title: 'TEST APP'),
+     )
      );
    }
   
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}):super(key:key);
+ 
   final String title;
+   
+
+   HomePage({Key key, this.title}):super(key:key);
 
   @override
     _HomePageState createState() => new _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-
+SessionManagerBloc bloc;
+  @override
+    Widget build(BuildContext context) {
+      final ThemeData theme = Theme.of(context);
+       bloc = SessionManagerProvider.of(context);
+      return Scaffold(
+        appBar:  AppBar(
+          title:  Text(widget.title),
+        ),
+        body:  Container(
+          margin: EdgeInsets.all(10.0),
+          alignment: Alignment.center,
+          child:  Column(
+            children:<Widget>[
+              new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _getSession,
+            child: Text('Get Uswer Session'),
+          ),
+              new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _accountSummary_clicked,
+            child: Text('Accounts'),
+          ),
+            new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _transfer_clicked,
+            
+            child: Text('Transfer'),
+       
+          ),  new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _serviceTest_clicked,
+            child: Text('Service Test'),
+          ),
+            
+           new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _stream_sink_clicked,
+            child: Text('Stream/Sink With Timer'),
+          ), 
+           new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _block_test_clicked,
+            child: Text('Stream/Sink With BLoC'),
+          ), 
+   new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _block_test_withdart_clicked,
+            child: Text('BLOCK using RXDart'),
+          ),
+           new RaisedButton(
+            splashColor:theme.primaryColor.withOpacity(0.12),
+            
+            onPressed: _user_registration_clicked,
+            child: Text('MVVM Approach'),
+          ), 
+            ],
+          ),
+          
+        ),
+      
+      );
+        
+    }
+    //Button clicked methods
+    void _getSession(){
+      print('Get Session ');
+        SessionManagerData sessionData = SessionManagerData();
+        sessionData.sessionId = 'ABCDEFH12345546565656565ABCDS';
+        sessionData.userName = 'RAM PAL VVERMA';
+        bloc.updateSession.add(sessionData);
+         print('Received User Session ');
+    }
 void _stream_sink_clicked(){
    setState(() {
         print('Stream Sink CLICKED');
@@ -69,9 +160,8 @@ void _stream_sink_clicked(){
  }
  void _accountSummary_clicked(){
    setState(() {
-        print('Account Summary VIEW CLICKED');
         Navigator.push(context,  new MaterialPageRoute<AccountsSummaryPage>(
-          builder: (BuildContext context) => new AccountsSummaryPage(title: 'Accounts Summary Page')
+          builder: (BuildContext context) => new AccountsSummaryPage(title:'Accounts Summary Page')
 
         ));
 
@@ -118,69 +208,4 @@ void _stream_sink_clicked(){
 
       });
  }
-
-  @override
-    Widget build(BuildContext context) {
-      final ThemeData theme = Theme.of(context);
-
-      return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(widget.title),
-        ),
-        body: new Container(
-          margin: EdgeInsets.all(10.0),
-          alignment: Alignment.center,
-          child: new Column(
-            children:<Widget>[
-           
-              new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _accountSummary_clicked,
-            child: Text('Accounts'),
-          ),
-            new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _transfer_clicked,
-            
-            child: Text('Transfer'),
-       
-          ),  new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _serviceTest_clicked,
-            child: Text('Service Test'),
-          ),
-            
-           new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _stream_sink_clicked,
-            child: Text('Stream/Sink With Timer'),
-          ), 
-           new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _block_test_clicked,
-            child: Text('Stream/Sink With BLOCK'),
-          ), 
-   new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _block_test_withdart_clicked,
-            child: Text('BLOCK using RXDart'),
-          ),
-           new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
-            
-            onPressed: _user_registration_clicked,
-            child: Text('MVVM Approach'),
-          ), 
-            ],
-          ),
-          
-        ),
-      );
-    }
 }

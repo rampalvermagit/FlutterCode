@@ -6,6 +6,13 @@ import 'package:flutter/cupertino.dart';
 
 import './account_list.dart';
 
+import 'package:test_app/common/session_manager_bloc.dart';
+import 'package:test_app/common/session_manager_provider.dart';
+import 'package:test_app/common/session_manager_data.dart';
+
+
+
+
 //Dropdown widget begin
 class _InputDropdown extends StatelessWidget {
   const _InputDropdown({
@@ -102,6 +109,15 @@ class TransferPage extends StatefulWidget {
 class _TransferPageState extends State<TransferPage> {
   
   DateTime _transferDate = new DateTime.now();
+
+void getSessionInfo(BuildContext context){
+    final  bloc = SessionManagerProvider.of(context);
+    Future<SessionManagerData> item =  bloc.sessionInfo.first;
+    item.then((data){
+      print(data.userName);
+      print('SESSION ID::::' + data.sessionId);
+    });
+  }
 
 //Account List
  final  List<Accounts> _actList = <Accounts>[
@@ -221,6 +237,8 @@ String _validateAmount(String value) {
  Accounts _actToObj;
   @override
   Widget build(BuildContext context) {
+    getSessionInfo(context);
+
     return new Scaffold(
        appBar: new AppBar(
           title: const Text('Transfer Money'),

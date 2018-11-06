@@ -10,7 +10,6 @@ class RestServiceTestPage extends StatelessWidget {
   final String title;
   final service = UserInfoService();
 
-
   RestServiceTestPage({Key key, this.title}) : super(key: key);
 
   @override

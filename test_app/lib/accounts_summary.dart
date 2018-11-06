@@ -3,10 +3,16 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/services.dart' show rootBundle;
 
 import './account_details.dart';
+
+import 'package:test_app/common/session_manager_bloc.dart';
+import 'package:test_app/common/session_manager_provider.dart';
+import 'package:test_app/common/session_manager_data.dart';
+
+
 
 //Accounts Data Model
 class AccountData {
@@ -52,12 +58,25 @@ final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
 //Build Page
 class AccountsSummaryPage extends StatelessWidget {
   final String title;
-
-  AccountsSummaryPage({Key key, this.title}) : super(key: key);
+   SessionManagerBloc bloc ;
+   var sessionData = SessionManagerData();
+   Stream<SessionManagerData> stream;
+   AccountsSummaryPage( { this.title});
+    
+ 
+  void getSessionInfo(BuildContext context){
+    final  bloc = SessionManagerProvider.of(context);
+    Future<SessionManagerData> item =  bloc.sessionInfo.first;
+    item.then((data){
+      print(data.userName);
+      print('SESSION ID::::' + data.sessionId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   getSessionInfo(context);
+     return Scaffold(
       appBar: AppBar(
         title: Text(title)
       ),

@@ -6,11 +6,12 @@ import 'package:test_app/BLoC/user_info_block.dart';
 import 'package:test_app/BLoC/user_info_provider.dart';
 
 class UserInfoSearchPage  extends StatelessWidget {
-  
+  UserInfoBlock bloc = UserInfoBlock();
+
   @override
     Widget build(BuildContext context) {
       return UserInfoProvider(
-        userInfoBlock: UserInfoBlock(),
+        userInfoBlock: bloc,
         child:_SearchPage(),
       );
     }
@@ -26,7 +27,7 @@ class _SearchPage extends StatelessWidget {
     final userInfoBlock = UserInfoProvider.of(context);
     return Scaffold(
             appBar: AppBar(
-              title:Text('Block with Stream Controller'),
+              title:Text('BLoC with Stream Controller'),
             ),
             body:Column(
               children:<Widget>[

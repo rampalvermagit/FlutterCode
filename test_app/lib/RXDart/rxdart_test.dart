@@ -28,7 +28,7 @@ class _RXDartTestPage extends StatelessWidget {
     final userInfoBlock = TestServiceProvider.of(context);
     return Scaffold(
             appBar: AppBar(
-              title:Text('Block with ReplaySubject'),
+              title:Text('BLoC with ReplaySubject'),
             ),
             body:Column(
               children:<Widget>[
