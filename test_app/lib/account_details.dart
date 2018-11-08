@@ -1,7 +1,8 @@
+
 import 'package:flutter/material.dart';
 
-import './accounts_summary.dart';
-
+import 'package:test_app/common/session_manager_provider.dart';
+import 'package:test_app/account_data.dart';
 
 class AccountDetailsPage extends StatelessWidget {
 
@@ -10,7 +11,12 @@ const AccountDetailsPage( {Key key, this.title, this.account}):super(key:key);
   final String title;
   final AccountData account;
 
+ void getSessionInfo(BuildContext context){
+     final sessionProvider = (context.inheritFromWidgetOfExactType(SessionManagerProvider)) as SessionManagerProvider;
+        print(sessionProvider.sessionData.userName);
+       print('SESSION ID::::' + sessionProvider.sessionData.sessionId);
  
+  }
 //
 List<Widget>  _buildItems(){
   return <Widget>[
@@ -100,6 +106,8 @@ Widget _buildAccountView(List<Widget> children) {
 
   @override
     Widget build(BuildContext context) {
+      getSessionInfo(context);
+
       print('AccountDetailsPage');
       print(account.accountName);
 

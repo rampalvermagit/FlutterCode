@@ -2,8 +2,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import './BLoC/user_info.dart';
-import './BLoC/user_info_service.dart';
+import 'package:test_app/BLoC/user_info.dart';
+import 'package:test_app/BLoC/user_info_service.dart';
 
 
 class RestServiceTestPage extends StatelessWidget {

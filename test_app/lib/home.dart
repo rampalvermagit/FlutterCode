@@ -2,27 +2,26 @@
 import 'package:flutter/material.dart';
 
 
-import './transfer.dart';
-import './accounts_summary.dart';
-import './take_photo.dart';
-import './stream_sink_test.dart';
-import './rest_service.dart';
-import './BLoC/user_info_search.dart';
+import 'package:test_app/transfer.dart';
+import 'package:test_app/accounts_summary.dart';
+import 'package:test_app/take_photo.dart';
+import 'package:test_app/stream_sink_test.dart';
+import 'package:test_app/rest_service.dart';
+import 'package:test_app/BLoC/user_info_search.dart';
 import 'package:test_app/RXDart/rxdart_test.dart';
 
-import 'package:test_app/common/session_manager_bloc.dart';
 import 'package:test_app/common/session_manager_provider.dart';
 import 'package:test_app/common/session_manager_data.dart';
 
 
 
 class MyFirstApp extends StatelessWidget {
- SessionManagerBloc sessionMgrBloc = SessionManagerBloc();
+ SessionManagerData sessionData = SessionManagerData();
 
  @override
    Widget build(BuildContext context) {
      return SessionManagerProvider(
-        sessionManagerBloc:sessionMgrBloc,
+        sessionData:sessionData,
         child:MaterialApp(
        theme:ThemeData(
          primarySwatch:Colors.deepOrange,
@@ -46,11 +45,11 @@ class HomePage extends StatefulWidget {
     _HomePageState createState() => new _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-SessionManagerBloc bloc;
+SessionManagerData sessionData;
   @override
     Widget build(BuildContext context) {
       final ThemeData theme = Theme.of(context);
-       bloc = SessionManagerProvider.of(context);
+       sessionData = SessionManagerProvider.of(context);
       return Scaffold(
         appBar:  AppBar(
           title:  Text(widget.title),
@@ -121,10 +120,10 @@ SessionManagerBloc bloc;
     //Button clicked methods
     void _getSession(){
       print('Get Session ');
-        SessionManagerData sessionData = SessionManagerData();
+     var  sessionData = SessionManagerProvider.of(context);
+
         sessionData.sessionId = 'ABCDEFH12345546565656565ABCDS';
         sessionData.userName = 'RAM PAL VVERMA';
-        bloc.updateSession.add(sessionData);
          print('Received User Session ');
     }
 void _stream_sink_clicked(){

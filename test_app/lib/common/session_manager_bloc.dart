@@ -6,8 +6,6 @@ import 'package:test_app/common/session_manager_data.dart';
 class SessionManagerBloc {
  
 //sink Controller
-//final _outStreamController1 = StreamController.broadcast<List<UserInfoData>>();
-
   final _inStreamController = StreamController<SessionManagerData>();
 
   Sink<SessionManagerData> get updateSession => _inStreamController.sink;

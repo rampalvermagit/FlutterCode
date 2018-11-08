@@ -3,14 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-
-import './account_list.dart';
-
-import 'package:test_app/common/session_manager_bloc.dart';
 import 'package:test_app/common/session_manager_provider.dart';
 import 'package:test_app/common/session_manager_data.dart';
-
-
+import 'package:test_app/account_data.dart';
+import 'package:test_app/account_service.dart';
 
 
 //Dropdown widget begin
@@ -109,68 +105,30 @@ class TransferPage extends StatefulWidget {
 class _TransferPageState extends State<TransferPage> {
   
   DateTime _transferDate = new DateTime.now();
+   SessionManagerProvider sessionProvider;
+  List<AccountData> _actList;
 
 void getSessionInfo(BuildContext context){
-    final  bloc = SessionManagerProvider.of(context);
-    Future<SessionManagerData> item =  bloc.sessionInfo.first;
-    item.then((data){
-      print(data.userName);
-      print('SESSION ID::::' + data.sessionId);
-    });
+    sessionProvider = (context.inheritFromWidgetOfExactType(SessionManagerProvider)) as SessionManagerProvider;
+        print(sessionProvider.sessionData.userName);
+       print('SESSION ID::::' + sessionProvider.sessionData.sessionId);
+ 
+  }
+  void getAccountInfo(){
+    if (sessionProvider.sessionData.actList.length > 0){
+      _actList = sessionProvider.sessionData.actList;
+    }
+    else {
+      final actService = AccountService();
+      actService.fetchAccountsInfo().then((result){
+     print('DATA RETURNED');
+     _actList = result;
+     sessionProvider.sessionData.actList = _actList;
+    
+   });
+    }
   }
 
-//Account List
- final  List<Accounts> _actList = <Accounts>[
-    new Accounts(
-      accountNumber: '00000234567771234',
-      accountName: 'Checking Account',
-      accountType: 'CHK',
-      accountBalance:1423.00
-    ),
-     new Accounts(
-      accountNumber: '0000023456789',
-      accountName: 'Checking Account',
-      accountType: 'CHK',
-      accountBalance:52423.00
-    ),
-     new Accounts(
-      accountNumber: '99990000000234',
-      accountName: 'Checking Account',
-      accountType: 'CHK',
-      accountBalance:99999.99
-    ),
-     new Accounts(
-      accountNumber: '234567777775555',
-      accountName: 'Saving Account',
-      accountType: 'SAV',
-      accountBalance:72423.00
-    ),
-     new Accounts(
-      accountNumber: '400040040004000',
-      accountName: 'Saving Account',
-      accountType: 'SAV',
-      accountBalance:82423.00
-    ),
-     new Accounts(
-      accountNumber: '888888888881999',
-      accountName: 'Money Market',
-      accountType: 'MMA',
-      accountBalance:230009.99
-    ),
-     new Accounts(
-      accountNumber: '1234123412341234',
-      accountName: 'DDA Account',
-      accountType: 'DDA',
-      accountBalance:991423.00
-    ),
-     new Accounts(
-      accountNumber: '40000200005000',
-      accountName: 'DDA Account',
-      accountType: 'DDA',
-      accountBalance:52423.00
-    ),
-   
-  ];
 void showDemoDialog<T>({BuildContext context, Widget child}) {
     showDialog<T>(
       context: context,
@@ -233,11 +191,12 @@ String _validateAmount(String value) {
     return null;
   }
 
-  Accounts _actObj;
- Accounts _actToObj;
+  AccountData _actObj;
+ AccountData _actToObj;
   @override
   Widget build(BuildContext context) {
     getSessionInfo(context);
+    getAccountInfo();
 
     return new Scaffold(
        appBar: new AppBar(
@@ -258,16 +217,16 @@ String _validateAmount(String value) {
                   hintText: 'Select From Account',
                 ),
                 //isEmpty: _activity == null,
-                child: new DropdownButton<Accounts>(
+                child: new DropdownButton<AccountData>(
                   value: _actObj,
                   isDense: true,
-                  onChanged: (Accounts newValue) {
+                  onChanged: (AccountData newValue) {
                     setState(() {
                       _actObj = newValue;
                     });
                   },
-                   items: _actList.map((Accounts actVal) {
-                    return new DropdownMenuItem<Accounts>(
+                   items: _actList.map((AccountData actVal) {
+                    return new DropdownMenuItem<AccountData>(
                       value: actVal,
                       child: new Text(actVal.accountName + "("+ actVal.accountNumber + ")"),
                     );
@@ -280,16 +239,16 @@ String _validateAmount(String value) {
                   hintText: 'Select To Account',
                 ),
                 //isEmpty: _activity == null,
-                child: new DropdownButton<Accounts>(
+                child: new DropdownButton<AccountData>(
                   value: _actToObj,
                   isDense: true,
-                  onChanged: (Accounts newValue) {
+                  onChanged: (AccountData newValue) {
                     setState(() {
                       _actToObj = newValue;
                     });
                   },
-                   items: _actList.map((Accounts actVal) {
-                    return new DropdownMenuItem<Accounts>(
+                   items: _actList.map((AccountData actVal) {
+                    return new DropdownMenuItem<AccountData>(
                       value: actVal,
                       child: new Text(actVal.accountName + "("+ actVal.accountNumber + ")"),
                     );

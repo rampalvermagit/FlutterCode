@@ -1,76 +1,38 @@
-import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart' show rootBundle;
-
-import './account_details.dart';
+import 'package:test_app/account_details.dart';
 
 import 'package:test_app/common/session_manager_bloc.dart';
 import 'package:test_app/common/session_manager_provider.dart';
 import 'package:test_app/common/session_manager_data.dart';
 
+import 'package:test_app/account_data.dart';
+import 'package:test_app/account_service.dart';
 
-
-//Accounts Data Model
-class AccountData {
-
-final String accountNumber;
-  final String accountName;
-  final String accountType;
-  final double accountBalance;
-
-   AccountData({
-   @required this.accountNumber,
-   @required this.accountName,
-   @required this.accountType,
-   @required this.accountBalance,
- });
-  
-  //Map the data to Account Object
- factory AccountData.fromJson(Map<String, dynamic> json){
-   return AccountData(
-     accountNumber: json['accountNumber'],
-     accountName: json['accountName'],
-     accountType: json['accountType'],
-     accountBalance: json['accountBalance']
-   );
- }
-
-}
-//Load Accounts Data from Local
-Future<List<AccountData>> _fetchAccountsInfo() async {
-  final response = await rootBundle.loadString('assets/accounts.json');
-
-//Isolate - run in secondary thread as this may take time 
- return compute(_parseResponse, response);
-   
-}
-
-List<AccountData> _parseResponse(String responseBody){
-final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<AccountData>((json) => AccountData.fromJson(json)).toList();
-}
-
-//Build Page
 class AccountsSummaryPage extends StatelessWidget {
   final String title;
    SessionManagerBloc bloc ;
+   final AccountService actService = AccountService();
    var sessionData = SessionManagerData();
-   Stream<SessionManagerData> stream;
+   
+
    AccountsSummaryPage( { this.title});
     
  
   void getSessionInfo(BuildContext context){
-    final  bloc = SessionManagerProvider.of(context);
+    final sessionProvider = (context.inheritFromWidgetOfExactType(SessionManagerProvider)) as SessionManagerProvider;
+        print(sessionProvider.sessionData.userName);
+       print('SESSION ID::::' + sessionProvider.sessionData.sessionId);
+ 
+    /*final  bloc = SessionManagerProvider.of(context);
     Future<SessionManagerData> item =  bloc.sessionInfo.first;
     item.then((data){
       print(data.userName);
-      print('SESSION ID::::' + data.sessionId);
+      print('SESSION ID::::' + sessionProvider.sessionData.sessionId);
     });
+    */
   }
 
   @override
@@ -81,10 +43,14 @@ class AccountsSummaryPage extends StatelessWidget {
         title: Text(title)
       ),
       body:FutureBuilder<List<AccountData>>(
-        future: _fetchAccountsInfo(),
+        future: actService.fetchAccountsInfo(),
          builder: (context, data) {
           if (data.hasError) print(data.error);
-
+            if (data.hasData){
+              final sessionProvider = (context.inheritFromWidgetOfExactType(SessionManagerProvider)) as SessionManagerProvider;
+                  sessionProvider.sessionData.actList = data.data;
+                  print('HAS Account Data');
+            }
           return data.hasData ? _AccountList(accounts: data.data):
           Center(child: CircularProgressIndicator());
         },
