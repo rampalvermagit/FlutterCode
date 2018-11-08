@@ -63,7 +63,7 @@ SessionManagerData sessionData;
             splashColor:theme.primaryColor.withOpacity(0.12),
             
             onPressed: _getSession,
-            child: Text('Get Uswer Session'),
+            child: Text('Get USER Session'),
           ),
               new RaisedButton(
             splashColor:theme.primaryColor.withOpacity(0.12),
