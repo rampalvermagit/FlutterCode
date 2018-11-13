@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:test_app/home.dart';
 
 
 class StreamResponse{
@@ -78,8 +78,8 @@ void _registerListner(){
    //Post notification
    setState(() {
       print('GO BACK');
-        Navigator.push(context,  new MaterialPageRoute<MyFirstApp>(
-          builder: (BuildContext context) => new MyFirstApp()
+        Navigator.push(context,  new MaterialPageRoute<DashboardPage>(
+          builder: (BuildContext context) => new DashboardPage()
 
         ));
       });

@@ -10,26 +10,12 @@ import 'package:test_app/rest_service.dart';
 import 'package:test_app/BLoC/user_info_search.dart';
 import 'package:test_app/RXDart/rxdart_test.dart';
 
-import 'package:test_app/common/session_manager_provider.dart';
-import 'package:test_app/common/session_manager_data.dart';
-
-
-
-class MyFirstApp extends StatelessWidget {
- SessionManagerData sessionData = SessionManagerData();
-
+class DashboardPage extends StatelessWidget {
+ 
  @override
    Widget build(BuildContext context) {
-     return SessionManagerProvider(
-        sessionData:sessionData,
-        child:MaterialApp(
-       theme:ThemeData(
-         primarySwatch:Colors.deepOrange,
-         accentColor: Colors.deepPurple
-       ),
-       home: new HomePage(title: 'TEST APP'),
-     )
-     );
+     return HomePage(title: 'MY BANK Dashboard');
+    
    }
   
 }
@@ -45,11 +31,10 @@ class HomePage extends StatefulWidget {
     _HomePageState createState() => new _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-SessionManagerData sessionData;
+
   @override
     Widget build(BuildContext context) {
       final ThemeData theme = Theme.of(context);
-       sessionData = SessionManagerProvider.of(context);
       return Scaffold(
         appBar:  AppBar(
           title:  Text(widget.title),
@@ -59,12 +44,7 @@ SessionManagerData sessionData;
           alignment: Alignment.center,
           child:  Column(
             children:<Widget>[
-              new RaisedButton(
-            splashColor:theme.primaryColor.withOpacity(0.12),
             
-            onPressed: _getSession,
-            child: Text('Get USER Session'),
-          ),
               new RaisedButton(
             splashColor:theme.primaryColor.withOpacity(0.12),
             
@@ -118,14 +98,7 @@ SessionManagerData sessionData;
         
     }
     //Button clicked methods
-    void _getSession(){
-      print('Get Session ');
-     var  sessionData = SessionManagerProvider.of(context);
-
-        sessionData.sessionId = 'ABCDEFH12345546565656565ABCDS';
-        sessionData.userName = 'RAM PAL VVERMA';
-         print('Received User Session ');
-    }
+   
 void _stream_sink_clicked(){
    setState(() {
         print('Stream Sink CLICKED');
